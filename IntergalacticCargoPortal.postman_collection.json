@@ -1,0 +1,424 @@
+{
+  "info": {
+    "_postman_id": "2f6b2e0c-78a3-4cf3-913f-8b77f5d7f001",
+    "name": "Intergalactic Cargo Portal",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "cursor-agent"
+  },
+  "item": [
+    {
+      "name": "Health",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/health",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "health"
+          ]
+        }
+      },
+      "response": [],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status is 200\", function () {",
+              "  pm.response.to.have.status(200);",
+              "});",
+              "",
+              "pm.test(\"Body has status ok\", function () {",
+              "  const data = pm.response.json();",
+              "  pm.expect(data.status).to.eql(\"ok\");",
+              "});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Signup (Admin)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"name\": \"Nova Prime\",\n  \"email\": \"nova@nebula-corp.com\",\n  \"password\": \"StrongPass123!\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{baseUrl}}/signup",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "signup"
+          ]
+        }
+      },
+      "response": [],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status is 201\", function () {",
+              "  pm.response.to.have.status(201);",
+              "});",
+              "",
+              "pm.test(\"Has user and token\", function () {",
+              "  const data = pm.response.json();",
+              "  pm.expect(data).to.have.property(\"user\");",
+              "  pm.expect(data).to.have.property(\"token\");",
+              "  pm.expect(data.user).to.have.property(\"id\");",
+              "  pm.expect(data.user).to.have.property(\"email\");",
+              "  pm.expect(data.user).to.have.property(\"role\");",
+              "});",
+              "",
+              "pm.test(\"Role is Admin\", function () {",
+              "  const data = pm.response.json();",
+              "  pm.expect(data.user.role).to.eql(\"Admin\");",
+              "});",
+              "",
+              "const data = pm.response.json();",
+              "pm.collectionVariables.set(\"jwtToken\", data.token);",
+              "pm.collectionVariables.set(\"adminEmail\", data.user.email);"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Signup (Standard)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"name\": \"Luna Jet\",\n  \"email\": \"luna@gmail.com\",\n  \"password\": \"StrongPass123!\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{baseUrl}}/signup",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "signup"
+          ]
+        }
+      },
+      "response": [],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status is 201\", function () {",
+              "  pm.response.to.have.status(201);",
+              "});",
+              "",
+              "pm.test(\"Role is Standard\", function () {",
+              "  const data = pm.response.json();",
+              "  pm.expect(data.user.role).to.eql(\"Standard\");",
+              "});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Login (Success)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"email\": \"nova@nebula-corp.com\",\n  \"password\": \"StrongPass123!\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{baseUrl}}/login",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "login"
+          ]
+        }
+      },
+      "response": [],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status is 200\", function () {",
+              "  pm.response.to.have.status(200);",
+              "});",
+              "",
+              "pm.test(\"Has user and token\", function () {",
+              "  const data = pm.response.json();",
+              "  pm.expect(data).to.have.property(\"user\");",
+              "  pm.expect(data).to.have.property(\"token\");",
+              "  pm.expect(data.user.email).to.be.a(\"string\");",
+              "});",
+              "",
+              "const data = pm.response.json();",
+              "pm.collectionVariables.set(\"jwtToken\", data.token);"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Login (Wrong Password)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"email\": \"nova@nebula-corp.com\",\n  \"password\": \"WrongPassword!\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{baseUrl}}/login",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "login"
+          ]
+        }
+      },
+      "response": [],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status is 401\", function () {",
+              "  pm.response.to.have.status(401);",
+              "});",
+              "",
+              "pm.test(\"Has invalid credentials message\", function () {",
+              "  const data = pm.response.json();",
+              "  pm.expect(data.message).to.include(\"Invalid email or password\");",
+              "});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Signup Duplicate Email",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"name\": \"Nova Prime\",\n  \"email\": \"nova@nebula-corp.com\",\n  \"password\": \"StrongPass123!\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{baseUrl}}/signup",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "signup"
+          ]
+        }
+      },
+      "response": [],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status is 409\", function () {",
+              "  pm.response.to.have.status(409);",
+              "});",
+              "",
+              "pm.test(\"Has duplicate email message\", function () {",
+              "  const data = pm.response.json();",
+              "  pm.expect(data.message).to.include(\"Email already exists\");",
+              "});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Signup Missing Fields",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"email\": \"only@email.com\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{baseUrl}}/signup",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "signup"
+          ]
+        }
+      },
+      "response": [],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status is 400\", function () {",
+              "  pm.response.to.have.status(400);",
+              "});",
+              "",
+              "pm.test(\"Has validation message\", function () {",
+              "  const data = pm.response.json();",
+              "  pm.expect(data).to.have.property(\"message\");",
+              "  pm.expect(data.message).to.be.a(\"string\");",
+              "  pm.expect(data.message.length).to.be.greaterThan(0);",
+              "});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Login Missing Fields",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"email\": \"nova@nebula-corp.com\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{baseUrl}}/login",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "login"
+          ]
+        }
+      },
+      "response": [],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status is 400\", function () {",
+              "  pm.response.to.have.status(400);",
+              "});",
+              "",
+              "pm.test(\"Has validation message\", function () {",
+              "  const data = pm.response.json();",
+              "  pm.expect(data).to.have.property(\"message\");",
+              "  pm.expect(data.message).to.be.a(\"string\");",
+              "  pm.expect(data.message.length).to.be.greaterThan(0);",
+              "});"
+            ]
+          }
+        }
+      ]
+    }
+  ],
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:5000"
+    },
+    {
+      "key": "jwtToken",
+      "value": ""
+    },
+    {
+      "key": "adminEmail",
+      "value": ""
+    }
+  ]
+}
