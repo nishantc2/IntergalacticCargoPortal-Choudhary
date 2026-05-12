@@ -10,6 +10,7 @@ auth_bp = Blueprint("auth", __name__)
 
 @auth_bp.post("/signup")
 def signup():
+    """Register a user, auto-assign role, and return a JWT."""
     payload = request.get_json(silent=True) or {}
     name = payload.get("name")
     email = (payload.get("email") or "").strip().lower()
@@ -51,6 +52,7 @@ def signup():
 
 @auth_bp.post("/login")
 def login():
+    """Authenticate a user and return a fresh JWT."""
     payload = request.get_json(silent=True) or {}
     email = (payload.get("email") or "").strip().lower()
     password = payload.get("password")

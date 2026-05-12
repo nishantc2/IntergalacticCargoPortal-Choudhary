@@ -6,10 +6,12 @@ from flask import Flask
 from app.db import init_db
 from app.routes import auth_bp, system_bp
 
-# load environment variables from .env file
+# Load environment variables from `.env`.
 load_dotenv()
 
+
 def create_app() -> Flask:
+    """Create and configure the Flask application instance."""
     app = Flask(__name__)
     app.register_blueprint(system_bp)
     app.register_blueprint(auth_bp)
@@ -20,6 +22,7 @@ app = create_app()
 
 
 def boot():
+    """Validate required env vars and initialize the database."""
     if not os.getenv("JWT_SECRET"):
         raise RuntimeError("Missing JWT_SECRET in environment.")
     init_db()

@@ -6,18 +6,22 @@ from werkzeug.security import check_password_hash, generate_password_hash
 
 
 def determine_role_from_email(email: str) -> str:
+    """Assign role based on domain business rule."""
     return "Admin" if email.lower().endswith("@nebula-corp.com") else "Standard"
 
 
 def hash_password(password: str) -> str:
+    """Generate a secure password hash for storage."""
     return generate_password_hash(password)
 
 
 def verify_password(password: str, password_hash: str) -> bool:
+    """Verify a plaintext password against a stored hash."""
     return check_password_hash(password_hash, password)
 
 
 def issue_token(user_id: int, email: str, role: str) -> str:
+    """Create a signed JWT token for authenticated users."""
     expires_in = int(os.getenv("JWT_EXPIRES_IN_SECONDS", "86400"))
     payload = {
         "sub": user_id,

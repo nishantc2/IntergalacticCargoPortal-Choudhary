@@ -7,12 +7,14 @@ DB_PATH = PROJECT_ROOT / "data" / "cargo_portal.sqlite3"
 
 
 def get_connection():
+    """Return a SQLite connection configured for dict-like row access."""
     conn = sqlite3.connect(DB_PATH)
     conn.row_factory = sqlite3.Row
     return conn
 
 
 def init_db():
+    """Create required database directories and tables if missing."""
     DB_PATH.parent.mkdir(parents=True, exist_ok=True)
     with get_connection() as conn:
         conn.execute(
