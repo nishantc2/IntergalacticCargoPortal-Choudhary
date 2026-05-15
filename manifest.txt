@@ -1,0 +1,6 @@
+SHIPMENT_ID,ORIGIN,DESTINATION,WEIGHT
+CG-1001,Earth,Sector-7 Alpha,10
+CG-1002,Mars,Europa,11
+CG-1003,Titan,Earth,8
+CG-1004,Venus,Sector-7 Delta,20.4
+CG-1005,Pluto,Sector-3 Outpost,7.2
