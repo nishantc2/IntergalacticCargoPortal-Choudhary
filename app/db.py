@@ -29,4 +29,16 @@ def init_db():
             )
             """
         )
+        conn.execute(
+            """
+            CREATE TABLE IF NOT EXISTS cargo_records (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                shipment_id TEXT,
+                origin TEXT,
+                destination TEXT NOT NULL,
+                weight_kg INTEGER NOT NULL,
+                uploaded_at TEXT DEFAULT CURRENT_TIMESTAMP
+            )
+            """
+        )
         conn.commit()

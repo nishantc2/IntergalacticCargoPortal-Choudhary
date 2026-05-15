@@ -4,7 +4,7 @@ from dotenv import load_dotenv
 from flask import Flask
 
 from app.db import init_db
-from app.routes import auth_bp, system_bp
+from app.routes import auth_bp, cargo_bp, system_bp
 
 # Load environment variables from `.env`.
 load_dotenv()
@@ -15,6 +15,7 @@ def create_app() -> Flask:
     app = Flask(__name__)
     app.register_blueprint(system_bp)
     app.register_blueprint(auth_bp)
+    app.register_blueprint(cargo_bp)
     return app
 
 
