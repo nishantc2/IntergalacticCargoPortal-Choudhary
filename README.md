@@ -8,6 +8,7 @@ Same Task 1 functionality implemented in Python.
 - `POST /login`
 - `POST /api/upload` (Admin only, multipart `.txt` upload)
 - `GET /api/cargo` (authenticated users)
+- Frontend dashboard at `/`
 - JWT auth
 - Auto role assignment rule:
   - `@nebula-corp.com` -> `Admin`
@@ -16,6 +17,14 @@ Same Task 1 functionality implemented in Python.
   - if `DESTINATION` contains `Sector-7`, weight is multiplied by `1.45`
   - final weight is rounded to nearest integer
   - rows with prime rounded weights are skipped
+- Frontend display rules:
+  - Admin sees `File Upload` and cargo weight in `KG`
+  - Standard sees no upload control and weight in `LBS`
+  - Cargo list sorted heaviest to lightest, with destination `Earth` pinned to bottom
+  - Cargo table uses pagination with 5 rows per page
+  - Login and Signup are shown as separate switchable views
+  - Auth submit buttons show loading spinner and prevent double-submit
+  - Logout clears persisted session and resets auth form inputs
 
 ## Setup
 1. Create virtual environment and activate it:
@@ -29,6 +38,15 @@ Same Task 1 functionality implemented in Python.
    - `python -m app.app`
 
 Server default: `http://localhost:5000`
+Frontend: `http://localhost:5000/`
+
+## Task 3 frontend flow
+- Open `/` to access Login view.
+- Use "Create an account" link to switch to Signup and "Go to login" to switch back.
+- After auth:
+  - Admin dashboard: upload control + cargo table with `KG`
+  - Standard dashboard: cargo table only with `LBS`
+- Use `Prev` and `Next` controls below the table to navigate pages (5 rows per page).
 
 ## Sample payloads
 
