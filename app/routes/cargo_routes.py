@@ -29,6 +29,7 @@ def _parse_manifest(file_content: str) -> list[dict]:
     if not lines:
         return []
 
+    # Accept common text manifest delimiters so legacy files are still ingestible.
     delimiter = ","
     header_line = lines[0]
     if "|" in header_line:
@@ -64,6 +65,7 @@ def upload_manifest():
     if not parsed_rows:
         return jsonify({"message": "Manifest file is empty or invalid."}), 400
 
+    # Task contract requires these columns regardless of optional extra fields.
     for required in ("DESTINATION", "WEIGHT"):
         if required not in parsed_rows[0]:
             return jsonify({"message": f"Manifest must include {required} column."}), 400
@@ -83,10 +85,12 @@ def upload_manifest():
                 skipped_invalid += 1
                 continue
 
+            # Business Rule: Sector-7 cargo has adjusted weight before rounding.
             if "Sector-7" in destination:
                 final_weight *= 1.45
 
             rounded_weight = round(final_weight)
+            # Business Rule: prime rounded weights are rejected from persistence.
             if _is_prime(rounded_weight):
                 skipped_prime += 1
                 continue
