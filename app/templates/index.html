@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Intergalactic Cargo Portal</title>
+  <link rel="stylesheet" href="/static/styles.css">
+</head>
+<body>
+  <main class="shell">
+    <header class="hero">
+      <h1>Intergalactic Cargo Portal</h1>
+      <p>Legacy manifest operations with role-based controls</p>
+    </header>
+
+    <section id="auth-panel" class="card auth-card">
+      <h2 id="auth-title">Login</h2>
+      <p class="hint">Use `@nebula-corp.com` email to be provisioned as Admin.</p>
+
+      <div class="auth-form-wrap">
+        <form id="login-form" class="stack" autocomplete="off">
+          <h3>Login</h3>
+          <input type="email" name="email" placeholder="Email" autocomplete="off" required>
+          <input type="password" name="password" placeholder="Password" autocomplete="new-password" required>
+          <button type="submit" id="login-btn">Sign in</button>
+          <p class="switch-text">
+            New here?
+            <a href="#" id="show-signup-link">Create an account</a>
+          </p>
+        </form>
+
+        <form id="signup-form" class="stack hidden" autocomplete="off">
+          <h3>Signup</h3>
+          <input type="text" name="name" placeholder="Full name" autocomplete="off" required>
+          <input type="email" name="email" placeholder="Email" autocomplete="off" required>
+          <input type="password" name="password" placeholder="Password" autocomplete="new-password" required>
+          <button type="submit" id="signup-btn">Create account</button>
+          <p class="switch-text">
+            Already have an account?
+            <a href="#" id="show-login-link">Go to login</a>
+          </p>
+        </form>
+      </div>
+    </section>
+
+    <section id="dashboard-panel" class="card hidden"></section>
+  </main>
+
+  <script src="/static/app.js"></script>
+</body>
+</html>
